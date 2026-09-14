@@ -75,15 +75,10 @@ jobs:
             ESTADO_TEXTO="revisado por el SGC"
           fi
 
-          CUERPO="📍 **${PLACE}**
-🕒 Hora local: ${LOCAL_TIME}
-⬇️ Profundidad: ${DEPTH} km
-✅ Estado: ${ESTADO_TEXTO}"
+          CUERPO=$(printf "📍 **%s**\n🕒 Hora local: %s\n⬇️ Profundidad: %s km\n✅ Estado: %s" "$PLACE" "$LOCAL_TIME" "$DEPTH" "$ESTADO_TEXTO")
 
           if awk "BEGIN {exit !($MAG >= 5)}"; then
-            CUERPO="${CUERPO}
-
-⚠️ _Si sentiste este sismo, repórtalo en el visor del SGC._"
+            CUERPO=$(printf "%s\n\n⚠️ _Si sentiste este sismo, repórtalo en el visor del SGC._" "$CUERPO")
           fi
 
           echo "Publicando sismo $ID (M$MAG_NUM) a ntfy..."
